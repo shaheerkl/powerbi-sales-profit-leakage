@@ -1,6 +1,39 @@
 # powerbi-sales-profit-leakage
 
 
+
+## Data Model & Relationships
+
+The project uses a hybrid data model consisting of sales and target fact tables, dimension tables, and an intermediate cleaned orders table.
+
+### Main Tables
+
+| Table | Purpose |
+|---|---|
+| Fact_Sales | Stores sales transactions, sales, profit, discount and related metrics. |
+| Fact_Targets | Stores illustrative monthly sales targets by region. |
+| Dim_Date | Provides date-based analysis. |
+| Dim_Month | Supports monthly target comparisons. |
+| Dim_Region | Supports regional analysis and RLS. |
+| Dim_Product | Provides product-level attributes. |
+| Dim_Customer | Provides customer-level attributes. |
+| Dim_Geography | Provides geographical attributes such as state and city. |
+| Clean_Orders | Intermediate cleaned orders table connecting customer, product and geography information with sales records. |
+
+### Model Design
+
+The model uses `Clean_Orders` as an intermediate table for customer, product and geography filtering. `Dim_Region` connects directly to both fact tables.
+
+The model also includes inactive direct relationships between `Fact_Sales` and selected dimensions.
+
+This is a hybrid model rather than a conventional pure star schema.
+
+### Relationship Configuration
+
+Relationships use one-to-many, many-to-one and one-to-one cardinalities, depending on the tables involved. Single-direction filtering is used in most relationships, with a bidirectional relationship between `Clean_Orders` and `Fact_Sales`.
+
+
+
 ## Row-Level Security (RLS)
 
 Implemented Row-Level Security (RLS) in Power BI to restrict data access based on regional responsibilities.
